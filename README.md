@@ -84,7 +84,7 @@ weather-app/
 
 ## 🎨 Screenshots
 
-<!-- Adicione screenshots do seu projeto aqui -->
+<img src="./.github/assets/img/tela.png">
 
 ## 🤝 Contribuindo
 
