@@ -12,6 +12,15 @@ export type WeatherData = {
   winddirection: number;
   weathercode: number;
   time: string;
+  humidity: number;
+};
+
+export type DailyForecast = {
+  date: string;
+  weathercode: number;
+  tempMax: number;
+  tempMin: number;
+  precipitation: number;
 };
 
 const WEATHER_CODES: Record<number, { label: string; icon: string }> = {
@@ -51,10 +60,31 @@ export async function fetchCoordinates(city: string): Promise<GeoResult | null> 
   return json.results?.[0] ?? null;
 }
 
-export async function fetchCurrentWeather(lat: number, lon: number): Promise<WeatherData | null> {
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=auto`;
+export async function fetchCurrentWeather(lat: number, lon: number): Promise<{ current: WeatherData; daily: DailyForecast[] } | null> {
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto`;
   const res = await fetch(url);
   if (!res.ok) throw new Error(`Erro ao buscar clima (${res.status})`);
   const json = await res.json();
-  return json.current_weather ?? null;
+  
+  if (!json.current_weather) return null;
+  
+  const current: WeatherData = {
+    temperature: json.current_weather.temperature,
+    humidity: 50, // valor padrão, pois a API gratuita não fornece na versão atual_weather
+    windspeed: json.current_weather.windspeed,
+    winddirection: json.current_weather.winddirection,
+    weathercode: json.current_weather.weathercode,
+    time: json.current_weather.time,
+  };
+
+  const daily: DailyForecast[] = json.daily.time.map((date: string, idx: number) => ({
+    date,
+    weathercode: json.daily.weather_code[idx],
+    tempMax: json.daily.temperature_2m_max[idx],
+    tempMin: json.daily.temperature_2m_min[idx],
+    precipitation: json.daily.precipitation_sum[idx],
+  }));
+
+  return { current, daily };
 }
+

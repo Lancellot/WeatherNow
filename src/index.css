@@ -30,12 +30,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1rem;
-}
+  padding: 2rem 1rem;  transition: background 0.8s ease-in-out;}
 
 .app-content {
   width: 100%;
-  max-width: 480px;
+  max-width: 780px;
 }
 
 .app-header {
@@ -193,7 +192,7 @@ body {
 }
 
 .weather-details {
-  display: grid;
+  display: flex;
   gap: 1rem;
   padding-top: 1.5rem;
   border-top: 1px solid var(--border);
@@ -253,6 +252,94 @@ body {
   opacity: 0.5;
 }
 
+.forecast-section {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: var(--shadow-lg);
+  margin-top: 1.5rem;
+  animation: slideUp 0.4s ease-out;
+}
+
+.forecast-section h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--text);
+}
+
+.forecast-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.forecast-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background: var(--bg);
+  border-radius: 12px;
+  transition: all 0.2s;
+}
+
+.forecast-item:hover {
+  background: var(--border);
+  transform: translateY(-2px);
+}
+
+.forecast-item.today {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(59, 130, 246, 0.15));
+  border: 2px solid var(--primary);
+  font-weight: 600;
+}
+
+.forecast-day {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-light);
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.forecast-date {
+  font-size: 0.875rem;
+  color: var(--text);
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+
+.forecast-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.forecast-temps {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.forecast-max {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.forecast-min {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.forecast-rain {
+  font-size: 0.75rem;
+  color: var(--primary);
+  font-weight: 600;
+}
+
 @media (max-width: 640px) {
   .app-header h1 {
     font-size: 2rem;
@@ -268,5 +355,9 @@ body {
   
   .temp-value {
     font-size: 3rem;
+  }
+
+  .forecast-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

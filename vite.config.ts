@@ -1,7 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
+// Substitua pelo nome do seu repositório
+const repoName = '/WeatherNow/'
+
 export default defineConfig({
   plugins: [react()],
+  base: repoName, // IMPORTANTE para GitHub Pages
 })

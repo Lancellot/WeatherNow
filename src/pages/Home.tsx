@@ -1,18 +1,29 @@
 import { type FormEvent, useState } from "react";
 import { useWeather } from "../hooks/useWeather";
-import { WeatherCard } from "../components/Weathercard";
-
+import { WeatherCard } from "../components/WeatherCard";import { ForecastCard } from "../components/ForecastCard";
+import { getBackgroundByWeatherCode } from "../lib/weatherBackground";
 export function Home() {
   const [city, setCity] = useState("");
-  const { place, weather, loading, error, loadWeather } = useWeather();
+  const { place, weather, forecast, loading, error, loadWeather } = useWeather();
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (city.trim()) loadWeather(city.trim());
   };
 
+  const bgStyle = weather ? getBackgroundByWeatherCode(weather.weathercode) : null;
+
   return (
-    <main className="app-container">
+    <main
+      className="app-container"
+      style={
+        bgStyle
+          ? {
+              background: bgStyle.gradient,
+            }
+          : {}
+      }
+    >
       <div className="app-content">
         <header className="app-header">
           <h1>🌤️ WeatherNow</h1>
@@ -44,6 +55,8 @@ export function Home() {
         )}
 
         {place && weather && <WeatherCard place={place} weather={weather} />}
+
+        {place && forecast && <ForecastCard forecast={forecast} />}
 
         {!place && !weather && !loading && !error && (
           <div className="empty-state">

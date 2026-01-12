@@ -32,6 +32,13 @@ export function WeatherCard({ place, weather }: Props) {
             <p className="detail-value">{weather.windspeed} km/h {windDir}</p>
           </div>
         </div>
+        <div className="detail-item">
+          <span className="detail-icon">💧</span>
+          <div>
+            <p className="detail-label">Umidade</p>
+            <p className="detail-value">{weather.humidity}%</p>
+          </div>
+        </div>
       </div>
     </article>
   );
